@@ -17,13 +17,10 @@ export const createAnecdotes = (newAnecdote) => {
 }
 
 export const increaseVote = (anecdote) => {
-    console.log(anecdote)
     const newAnecdote = {
         ...anecdote,
         votes: anecdote.votes + 1
     }
-
-    console.log(newAnecdote)
 
     axios.put(`${baseUrl}/${anecdote.id}`, newAnecdote)
 }
