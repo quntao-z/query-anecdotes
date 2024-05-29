@@ -3,9 +3,12 @@ import { createContext, useContext, useReducer } from "react";
 const notificationReducer =  (state, action) => {
     switch (action.type) {
         case "VOTED":
-            return `anecdote '${state}' voted`
+            return `anecdote '${action.payload}' voted`
         case "CREATE":
-            return `anecdote ${state} has been created`
+            return `anecdote '${action.payload}' has been created`
+        case "HIDE_NOTIFICATION": {
+            return true
+        }
         default:
             return state
     }
@@ -14,7 +17,7 @@ const notificationReducer =  (state, action) => {
 const NotificationContext = createContext()
 
 export const NotificationContextProvider = (props) => {
-    const [notification, notificationDispatch] = useReducer(notificationReducer, '')
+    const [notification, notificationDispatch] = useReducer(notificationReducer, true)
 
     return (
         <NotificationContext.Provider value = {[notification, notificationDispatch]}>
@@ -32,5 +35,20 @@ export const useNotificationDispatch = () => {
     const notificationAndDispatch = useContext(NotificationContext)
     return notificationAndDispatch[1]
 }
+
+export const handleVoteEvent = (dispatch, content) => {
+    dispatch({type: 'VOTED', payload: content})
+    setTimeout(() => {
+        dispatch({ type: 'HIDE_NOTIFICATION' });
+      }, 5000); 
+}
+
+export const handleCreateEvent = (dispatch, content) => {
+    dispatch({type: 'CREATE', payload: content})
+    setTimeout(() => {
+        dispatch({ type: 'HIDE_NOTIFICATION' });
+      }, 5000); 
+}
+
 
 export default NotificationContext
