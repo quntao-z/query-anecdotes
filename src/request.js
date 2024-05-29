@@ -13,7 +13,7 @@ export const createAnecdotes = (newAnecdote) => {
         votes: 0
     }
 
-    axios.post(baseUrl, anecdote).then(res => res.data)
+    return axios.post(baseUrl, anecdote).then(res => res.data)
 }
 
 export const increaseVote = (anecdote) => {

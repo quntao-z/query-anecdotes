@@ -6,9 +6,10 @@ const notificationReducer =  (state, action) => {
             return `anecdote '${action.payload}' voted`
         case "CREATE":
             return `anecdote '${action.payload}' has been created`
-        case "HIDE_NOTIFICATION": {
+        case "HIDE_NOTIFICATION": 
             return true
-        }
+        case "ERROR":
+            return `${action.payload.error}`
         default:
             return state
     }
@@ -45,6 +46,13 @@ export const handleVoteEvent = (dispatch, content) => {
 
 export const handleCreateEvent = (dispatch, content) => {
     dispatch({type: 'CREATE', payload: content})
+    setTimeout(() => {
+        dispatch({ type: 'HIDE_NOTIFICATION' });
+      }, 5000); 
+}
+
+export const handleError = (dispatch, content) => {
+    dispatch({type: 'ERROR', payload: content})
     setTimeout(() => {
         dispatch({ type: 'HIDE_NOTIFICATION' });
       }, 5000); 
